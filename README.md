@@ -14,7 +14,7 @@ Takes two video clips and prepares them for smooth VACE-based transition
 ### ComfyUI Manager
 Search for "**Wan VACE Prep**" in ComfyUI Manager and click *Install*.
 
-### Clone this repository into your custom_nodes directory.
+### or, Clone this repository into your custom_nodes directory.
 ```bash
     cd /path/to/comfyui/custom_nodes
     git clone https://github.com/stuttlepress/ComfyUI-Wan-VACE-Prep
