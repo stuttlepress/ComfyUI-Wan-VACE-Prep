@@ -11,13 +11,14 @@ Takes two video clips and prepares them for smooth VACE-based transition
 - Optionally include context frames in output segments for crossfade or other artifact-reduction processing
 
 ## Installation
-Clone this repository into your custom_nodes directory.
+### ComfyUI Manager
+Search for "**Wan VACE Prep**" in ComfyUI Manager and click *Install*.
 
+### or, Clone this repository into your custom_nodes directory.
 ```bash
-cd /path/to/comfyui/custom_nodes
-git clone https://github.com/stuttlepress/ComfyUI-Wan-VACE-Prep
+    cd /path/to/comfyui/custom_nodes
+    git clone https://github.com/stuttlepress/ComfyUI-Wan-VACE-Prep
 ```
-
 Restart ComfyUI.
 
 ## Usage
