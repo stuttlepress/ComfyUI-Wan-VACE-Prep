@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-wan-vace-prep"
-description = "A ComfyUI node that generates a VACE control video and mask for a smooth transition between two videos."
-version = "1.0.5"
+description = "ComfyUI nodes for Wan VACE generation - generate smooth video transitions and extensions."
+version = "1.0.6"
 license = { text = "MIT" }
 
 dependencies = []
