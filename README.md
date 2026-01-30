@@ -74,6 +74,29 @@ For smoothly extending a video. Context frames from before the chosen extension 
 |start_images|Video segment that precedes the context frames and the start of the extension|
 
 ---
+
+### Load Videos From Folder (Simple)
+Load all videos from a folder. A simplified answer to KJNodes' LoadVideosFromFolder, which depends on VideoHelperSuite and can have problems in some environments.
+
+    - Formats: webm, mp4, mkv, gif, mov
+    - All videos must have identical resolution
+	- No external dependencies
+	
+![Load Videos From Folder (Simple) Node](assets/load-videos-from-folder-simple.png)	
+
+
+**Parameters:**
+
+| Parameter | Default | Description |
+|-|-|-|
+| folder_path |  | Full pathname of the directory holding input videos. |
+
+**Outputs:**
+|Output|Description|
+|-|-|
+| images | Concatenated image batch ready for video creation. |
+
+---
 ## Technical Note
 The Wan model likes to generate 4n+1 frames at a time. If you ask it for some other amount, it will silently round your request down to the nearest 4n+1. For this reason, parameters are restricted to multiples of 4 or 4n+1 and when necessary, the node adds +1 to the number of generated frames. 
 
