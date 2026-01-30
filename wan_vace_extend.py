@@ -1,8 +1,6 @@
 import torch
 
-class WanVACEExtend:
-    """Generates VACE control video and mask for extending a video from an arbitrary frame using context frames."""
-    
+class WanVACEExtend:  
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -40,6 +38,7 @@ class WanVACEExtend:
     RETURN_NAMES = ("control_video", "control_mask", "width", "height", "length", "start_images")
     FUNCTION = "vace_extend"
     CATEGORY = "video/VACE"
+    DESCRIPTION = "Generates VACE control video and mask for extending a video from an arbitrary position using context frames."
     
     def vace_extend(self, video, extend_from_idx, context_frames, new_frames, crossfade_mode):
         height = int(video.shape[1])

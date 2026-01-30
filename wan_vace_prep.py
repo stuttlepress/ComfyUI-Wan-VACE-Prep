@@ -1,8 +1,6 @@
 import torch
 
-class WanVACEPrep:
-    """Generates VACE control video and mask for smooth transitions between two videos using context frames and frame replacement."""
-    
+class WanVACEPrep:    
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -41,6 +39,7 @@ class WanVACEPrep:
     RETURN_NAMES = ("control_video", "control_mask", "width", "height", "length", "start_images", "end_images")
     FUNCTION = "vace_prep"
     CATEGORY = "video/VACE"
+    DESCRIPTION = "Generates VACE control video and mask for smooth transitions between two videos using context frames and frame replacement."
     
     def vace_prep(self, video_1, video_2, context_frames, replace_frames, add_frames, crossfade_mode):
         height = int(video_1.shape[1])
