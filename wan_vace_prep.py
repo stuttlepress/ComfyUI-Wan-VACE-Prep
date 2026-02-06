@@ -28,10 +28,6 @@ class WanVACEPrep:
                     "step": 4,
                     "tooltip": "Number of new transition frames to generate, in addition to the replace_frames (multiple of 4)."
                 }),
-                "crossfade_mode": ("BOOLEAN", {
-                    "default": False,
-                    "tooltip": "Include context frames in start_images and end_images for cross-fade or other use cases."
-                }),
             }
         }
     
@@ -41,7 +37,7 @@ class WanVACEPrep:
     CATEGORY = "video/VACE"
     DESCRIPTION = "Generates VACE control video and mask for smooth transitions between two videos using context frames and frame replacement."
     
-    def vace_prep(self, video_1, video_2, context_frames, replace_frames, add_frames, crossfade_mode):
+    def vace_prep(self, video_1, video_2, context_frames, replace_frames, add_frames):
         height = int(video_1.shape[1])
         width = int(video_1.shape[2])
                 
@@ -95,15 +91,8 @@ class WanVACEPrep:
         mask = torch.zeros((total_frames, height, width), dtype=torch.float32, device=video_1.device)
         mask[context_frames:context_frames + vace_count] = 1.0
         
-        if crossfade_mode:
-            if replace_frames > 0:
-                start_images = video_1[:-replace_frames]
-            else:
-                start_images = video_1
-            end_images = video_2[replace_frames:]
-        else:
-            start_images = video_1[:-(context_frames + replace_frames)]
-            end_images = video_2[context_frames + replace_frames:]
+        start_images = video_1[:-(context_frames + replace_frames)]
+        end_images = video_2[context_frames + replace_frames:]
         
         length = int(control_video.shape[0])
 

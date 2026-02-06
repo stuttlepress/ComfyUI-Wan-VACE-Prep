@@ -10,7 +10,11 @@ class LoadVideosFromFolderSimple:
         return {
             "required": {
                 "folder_path": ("STRING", {"default": ""}),
-            },
+                "debug": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Log some details to the console"
+                }),
+            }      
         }
     
     RETURN_TYPES = ["IMAGE"]
@@ -25,7 +29,7 @@ class LoadVideosFromFolderSimple:
     - All videos must have identical resolution
     """
     
-    def load_videos(self, folder_path):
+    def load_videos(self, folder_path, debug):
         folder_path = folder_path.strip().strip('"').strip("'")
     
         if not os.path.isdir(folder_path):
@@ -39,12 +43,14 @@ class LoadVideosFromFolderSimple:
                 f"Supported formats: {', '.join(self.VIDEO_EXTENSIONS)}"
             )
         
-        print(f"Loading {len(video_files)} videos from {folder_path}")  
+        if debug:
+            print(f"Loading {len(video_files)} videos from {folder_path}")  
         all_frames = []
         expected_shape = None
         
         for idx, video_path in enumerate(video_files):
-            print(f"[{idx+1}/{len(video_files)}]: {os.path.basename(video_path)}", end=" ... ")
+            if debug:
+                print(f"[{idx+1}/{len(video_files)}]: {os.path.basename(video_path)}", end=" ... ")
             
             frames = self._load_video_frames(video_path)
             
@@ -60,13 +66,16 @@ class LoadVideosFromFolderSimple:
                     )
             
             all_frames.append(frames)
-            print(f"{frames.shape[0]} frames")
+            if debug:
+                print(f"{frames.shape[0]} frames")
         
         # Concatenate all frames
-        print(f"\nConcatenating {len(video_files)} videos...")
+        if debug:
+            print(f"\nConcatenating {len(video_files)} videos...")
         output = torch.cat(all_frames, dim=0)
 
-        print(f"Done!\n")
+        if debug:
+            print(f"Done\n")
         return (output,)
     
     def _get_video_files(self, folder_path):
