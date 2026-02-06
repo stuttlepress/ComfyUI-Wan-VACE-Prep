@@ -27,10 +27,6 @@ class WanVACEExtend:
                     "step": 4,
                     "tooltip": "Number of new frames to generate (4n+1)."
                 }),
-                "crossfade_mode": ("BOOLEAN", {
-                    "default": False,
-                    "tooltip": "Include context frames in start_images for cross-fade or other workflow use cases."
-                }),
             }
         }
     
@@ -40,7 +36,7 @@ class WanVACEExtend:
     CATEGORY = "video/VACE"
     DESCRIPTION = "Generates VACE control video and mask for extending a video from an arbitrary position using context frames."
     
-    def vace_extend(self, video, extend_from_idx, context_frames, new_frames, crossfade_mode):
+    def vace_extend(self, video, extend_from_idx, context_frames, new_frames):
         height = int(video.shape[1])
         width = int(video.shape[2])
         video_length = video.shape[0]
@@ -95,11 +91,8 @@ class WanVACEExtend:
         mask = torch.zeros((vace_count, height, width), dtype=torch.float32, device=video.device)
         mask[context_frames:] = 1.0
         
-        if crossfade_mode:
-            start_images = video[:actual_extend_idx]
-        else:
-            cut_point = actual_extend_idx - context_frames
-            start_images = video[:cut_point]
+        cut_point = actual_extend_idx - context_frames
+        start_images = video[:cut_point]
         
         length = int(control_video.shape[0])
 

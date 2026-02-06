@@ -18,7 +18,6 @@ For smoothly joining two video clips together. Builds VACE controls for the tran
 
 - Builds VACE control video and mask from context frames in both clips
 - Outputs video segments for final assembly
-- Optional crossfade mode for artifact reduction in the surrounding workflow.
 
 ![Wan VACE Prep Node](assets/comfyui-wan-vace-prep.png)
 
@@ -28,7 +27,6 @@ For smoothly joining two video clips together. Builds VACE controls for the tran
 |context_frames|8|Reference frames from each video edge that VACE uses for interpolation. These frames guide the model and are preserved in the output. Must be a multiple of 4.|
 |replace_frames|8|Number of frames at each transition edge to discard and regenerate. These create the actual transition blend zone. Must be a multiple of 4.|
 |add_frames|0|Number of completely new frames to generate between the two clips, extending the transition duration. Must be 0 or a multiple of 4.|
-|crossfade_mode|false| When enabled, context frames are included in start_images and end_images so they can be blended with the context frames included in the VACE generated clip. This can help mitigate color or brightness artifacts at the transition.|
 
 
 **Outputs:**
@@ -102,7 +100,6 @@ For smoothly extending a video. Context frames from before the chosen extension 
 - Extends from arbitrary frame position
 - Builds VACE control video and mask from context frames in the input video
 - Outputs video segment preceding the extension for video reassembly
-- Optional crossfade mode for artifact reduction in the surrounding workflow.
 
 ![Wan VACE Prep Node](assets/comfyui-wan-vace-extend.png)
 
@@ -114,7 +111,6 @@ For smoothly extending a video. Context frames from before the chosen extension 
 | extend_from_idx | -1 | Frame to extend from (negative counts from end, e.g., -1 = last frame) |
 | context_frames | 8 | Number of reference frames preceding extend_from_idx that VACE uses for interpolation. These frames guide the model and are preserved in the output. Must be a multiple of 4. |
 | new_frames | 25 | Number of new frames to generate (must be 4n+1: e.g., 1, 5, 9, 13, 17, 25...) |
-| crossfade_mode | false | When enabled, context frames are included in start_images so they can be blended with the context frames included in the VACE generated clip. This can help mitigate color or brightness artifacts at the transition. |
 
 **Outputs:**
 |Output|Description|
