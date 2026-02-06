@@ -143,6 +143,7 @@ Load all videos from a folder for batch processing. A simplified, dependency-fre
 |Output|Description|
 |-|-|
 | images | Concatenated image batch ready for video creation. |
+|debug|false|Log video details and progress to the console|
 
 ---
 ## Technical Note
