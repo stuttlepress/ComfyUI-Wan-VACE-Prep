@@ -138,12 +138,13 @@ Load all videos from a folder for batch processing. A simplified, dependency-fre
 | Parameter | Default | Description |
 |-|-|-|
 | folder_path |  | Full pathname of the directory holding input videos. |
+|debug|false|Log video details and progress to the console|
+
 
 **Outputs:**
 |Output|Description|
 |-|-|
 | images | Concatenated image batch ready for video creation. |
-|debug|false|Log video details and progress to the console|
 
 ---
 ## Technical Note
