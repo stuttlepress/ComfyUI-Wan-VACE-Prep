@@ -1,3 +1,5 @@
+import os
+
 class WanVACEBatchContext:
     @classmethod
     def INPUT_TYPES(cls):
@@ -9,8 +11,8 @@ class WanVACEBatchContext:
                     "tooltip": "Directory containing input videos"
                 }),
                 "project_name": ("STRING", {
-                    "default": ".",
-                    "tooltip": "Project name - workflow files will be created under ComfyUI/output/project_name. Use period (.) for no project name."
+                    "default": "",
+                    "tooltip": "Project name - workflow files will be created under ComfyUI/output/project_name."
                 }),
                 "index": ("INT", {
                     "default": 0,
@@ -34,7 +36,7 @@ class WanVACEBatchContext:
     def setup_context(self, **kwargs):
         input_dir = kwargs.get('input_dir', [""])[0]
         input_list = kwargs.get('input_list', [])
-        project_name = kwargs.get('project_name', [""])[0]
+        project_name = kwargs.get('project_name', [""])[0].strip()
         index = kwargs.get('index', [0])[0]
         debug = kwargs.get('debug', [False])[0] 
         
@@ -54,7 +56,10 @@ class WanVACEBatchContext:
             )
         
         # Construct paths
-        work_dir = f"{project_name}/vace-work"
+        if project_name:
+            work_dir = f"{project_name}/vace-work"
+        else:
+            work_dir = "vace-work"
         padded_index = f"{index:03d}"
         workfile_prefix = f"{work_dir}/index{padded_index}"
         
@@ -63,8 +68,8 @@ class WanVACEBatchContext:
         is_last = (index == max_index)
         
         # Extract filenames
-        video_1_filename = f"{input_dir}/{input_list[index]}"
-        video_2_filename = f"{input_dir}/{input_list[index + 1]}"
+        video_1_filename = os.path.join(input_dir, input_list[index]) if input_dir else input_list[index]
+        video_2_filename = os.path.join(input_dir, input_list[index + 1]) if input_dir else input_list[index + 1]
         
         if debug:
             print(f"\n=== VACE Batch Context ===")
@@ -84,5 +89,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "WanVACEBatchContext": "Wan VACE Batch Context"
+    "WanVACEBatchContext": "🪐 Wan VACE Batch Context"
 }

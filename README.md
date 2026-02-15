@@ -26,7 +26,7 @@ For smoothly joining two video clips together. Builds VACE controls for the tran
 |-|-|-|
 |context_frames|8|Reference frames from each video edge that VACE uses for interpolation. These frames guide the model and are preserved in the output. Must be a multiple of 4.|
 |replace_frames|8|Number of frames at each transition edge to discard and regenerate. These create the actual transition blend zone. Must be a multiple of 4.|
-|add_frames|0|Number of completely new frames to generate between the two clips, extending the transition duration. Must be 0 or a multiple of 4.|
+|new_frames|0|Number of completely new frames to generate between the two clips, extending the transition duration. Must be 0 or a multiple of 4.|
 
 
 **Outputs:**
@@ -123,13 +123,19 @@ For smoothly extending a video. Context frames from before the chosen extension 
 ---
 
 ### Load Videos From Folder (Simple)
-Load all videos from a folder for batch processing. A simplified, dependency-free alternative to KJNodes' LoadVideosFromFolder (which depends on VideoHelperSuite and can have problems in some environments).
+Load all videos from a folder.
+
+Optionally connect a **VideoHelperSuite** *Meta Batch Manager* node to process large collections in RAM-safe chunks. If you are joining a large number of video files and running out of system memory as they concatenate, this is the solution. From the VHS Meta Batch Manager node documentation:
+> The Meta Batch Manager allows for extremely long input videos to be processed when all other methods for fitting the content in RAM fail. It does not effect VRAM usage. It must be connected to at least one Input (a Load Video or Load Images) AND at least one Video Combine.
+
+See the VHS Meta Batch Manager node documentation for more information.
+
+*Meta Batch Manager* rule of thumb: set `frames_per_batch` to roughly 10× your available RAM (not VRAM) in GB — so 32GB → 320 frames, 64GB → 640 frames, 128GB → 1280 frames.
 
 - **Formats:** webm, mp4, mkv, gif, mov
 - All videos must have identical resolution
 - No external dependencies	
-	
-	
+		
 ![Load Videos From Folder (Simple) Node](assets/load-videos-from-folder-simple.png)	
 
 
@@ -139,7 +145,7 @@ Load all videos from a folder for batch processing. A simplified, dependency-fre
 |-|-|-|
 | folder_path |  | Full pathname of the directory holding input videos. |
 |debug|false|Log video details and progress to the console|
-
+| meta_batch | (Optional) Connect to **VideoHelperSuite** *Meta Batch Manager* node to load videos in batches |
 
 **Outputs:**
 |Output|Description|
