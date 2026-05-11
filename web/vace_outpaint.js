@@ -908,8 +908,9 @@ app.registerExtension({
                 }
                 _prevNodeX = this.pos[0];
 
+                const isV2 = !!document.querySelector("comfy-app"); // Vue3 element, means usage of Node2.0
                 const currentDOMHeight = dom.root.offsetHeight;
-                if (currentDOMHeight > 0) {
+                if (isV2 && currentDOMHeight > 0) {
                     const measuredChrome = size[1] - currentDOMHeight;
                     // In ComfyUI Node2.0 (V2 frontend), the node size is automatically driven by the DOM element size.
                     // If we blindly update the DOM height here, it creates a positive feedback loop of infinite expansion.
