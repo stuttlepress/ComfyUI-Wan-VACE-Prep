@@ -896,6 +896,7 @@ app.registerExtension({
             domWidget.computeSize = () => [440, CANVAS_H + CTRL_H];
             node.setSize([Math.max(node.size[0], MIN_W), Math.max(node.size[1], CANVAS_H + CTRL_H + NODE_CHROME)]);
             let _prevNodeX = node.pos[0];
+            let _prevMeasuredChrome = null;
             node.onResize = function(size) {
                 if (size[0] < MIN_W) {
                     if (this.pos[0] !== _prevNodeX) {
@@ -906,6 +907,21 @@ app.registerExtension({
                     size[0] = MIN_W;
                 }
                 _prevNodeX = this.pos[0];
+
+                const currentDOMHeight = dom.root.offsetHeight;
+                if (currentDOMHeight > 0) {
+                    const measuredChrome = size[1] - currentDOMHeight;
+                    // In ComfyUI Node2.0 (V2 frontend), the node size is automatically driven by the DOM element size.
+                    // If we blindly update the DOM height here, it creates a positive feedback loop of infinite expansion.
+                    // When V2 drives the resize, `measuredChrome` remains constant. 
+                    // When the user drags the corner, it fluctuates wildly.
+                    if (_prevMeasuredChrome !== null && Math.abs(measuredChrome - _prevMeasuredChrome) < 2) {
+                        _prevMeasuredChrome = measuredChrome;
+                        return; // Break the infinite expansion loop
+                    }
+                    _prevMeasuredChrome = measuredChrome;
+                }
+
                 // Grow the canvas wrap to fill extra node height, but never feed back
                 // into computeSize (that would cause an infinite expand loop on load).
                 const h = Math.max(CANVAS_H, size[1] - CTRL_H - NODE_CHROME);
