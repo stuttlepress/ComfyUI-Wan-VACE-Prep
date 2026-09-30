@@ -24,6 +24,7 @@ git clone https://github.com/stuttlepress/ComfyUI-Wan-VACE-Prep
 - [VACE Extend](#vace-extend)
 - [Load Videos From Folder (Simple)](#load-videos-from-folder-simple)
 - [MiniMax H3 Duration](#minimax-h3-duration)
+- [Int (Constrained)](#int-constrained)
 
 **Experimental:**
 
@@ -262,6 +263,34 @@ Converts a requested duration in seconds to a MiniMax H3-compatible frame count 
 |-|-|
 | frames | Frame count, rounded up to the nearest `17k+5` at 24 fps |
 | revised_seconds | Actual duration in seconds that `frames` produces at 24 fps |
+
+### Int (Constrained)
+
+An Int primitive with per-node min, max and step constraints. Values you type, drag or step to are snapped to the nearest step inside [min, max], and the backend applies the same snap at execution.
+
+The constraints are hidden on the node. With Nodes 2.0 they are advanced inputs: open the properties panel and use **Show advanced inputs**, or pick **Show Advanced** from the node menu. On the legacy canvas they live in the node's **Properties Panel** (right-click the node) as `min`, `max` and `step`; leave `min` or `max` empty for no limit.
+
+**Parameters:**
+
+| Parameter | Default | Description |
+|-|-|-|
+| value | 0 | The integer value |
+| min *(advanced)* | unset | Lowest allowed value. When set, the step grid counts from here |
+| max *(advanced)* | unset | Highest allowed value |
+| step *(advanced)* | 1 | Values snap to the nearest multiple of step, counted from min (or from 0 when min is unset). 1 means no snapping |
+
+**Outputs:**
+
+| Output | Description |
+|-|-|
+| INT | The snapped value |
+
+**Notes:**
+
+- In Nodes 2.0, an unset `min` or `max` shows as `-9007199254740991` or `9007199254740991` (the largest integer the browser can hold exactly). Setting either field to that number clears the limit.
+- A value exactly halfway between two steps snaps up.
+- If `min` is greater than `max`, or no step falls between them, the node does not change the value and the workflow fails at execution with an error naming the problem.
+- The value shown on the node may be off by a step from the output when `min`, `max` or the value is near +-9 quadrillion (2^53). The output is always computed exactly.
 
 ---
 ## Experimental

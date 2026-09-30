@@ -14,6 +14,7 @@ from .wan_first_middle_last_frame import WanFirstMiddleLastFrameToVideo
 from .vace_first_middle_last import WanVACEFirstMiddleLast
 from .vace_outpaint import VACEOutpaint
 from .duration import Duration
+from .constrained_int import ConstrainedInt
 
 # Node display names come from each node's Schema.display_name, so no
 # NODE_DISPLAY_NAME_MAPPINGS is needed here.
@@ -33,6 +34,7 @@ class WanVacePrepExtension(ComfyExtension):
             WanVACEFirstMiddleLast,
             VACEOutpaint,
             Duration,
+            ConstrainedInt,
         ]
 
 
